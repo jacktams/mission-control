@@ -1,0 +1,25 @@
+{
+  "name": "mission-control-screen",
+  "version": "1.0.0",
+  "description": "Screen Service for Mission Control",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "start": "npm run build && node dist/src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jack Tams <dev@jack.sh>",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "chrome-launcher": "^0.10.1",
+    "chrome-remote-interface": "^0.25.5",
+    "koa": "^2.4.1",
+    "koa-body": "^2.5.0",
+    "koa-router": "^7.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "rimraf": "^2.6.2"
+  }
+}
