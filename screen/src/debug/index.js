@@ -1,6 +1,14 @@
+import ip from 'ip';
+
+const getIp = () => {
+  return ip.address();
+};
+
 export default (browser) => (ctx, next) => {
-  ctx.body = `
-    <h1>Debug</h1>
-    <strong>URLS</strong> ${browser.getURLs()} </strong>
-  `;
+  ctx.body = {
+    urls: browser.getURLs(), 
+    cycle: browser.getCycleState(),
+    ip: getIp()
+  }
+  return next;
 };

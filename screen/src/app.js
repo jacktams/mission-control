@@ -14,12 +14,12 @@ app.use(async (ctx, next) => {
   console.log(`[${ctx.method}]  ${ctx.url} - ${ms}`);
 });
 
-router.get("/screen/url", (ctx, next) => {
+router.get("/screen/urls", (ctx, next) => {
   ctx.body = browser.getURLs();
   return next;
 });
 
-router.post("/screen/url", koaBody(), (ctx, next) => {
+router.post("/screen/urls", koaBody(), (ctx, next) => {
   console.log(ctx.request.body);
   browser.setURLs(ctx.request.body.urls);
   ctx.body = browser.getURLs();

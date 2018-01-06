@@ -13,6 +13,7 @@
   "dependencies": {
     "chrome-launcher": "^0.10.1",
     "chrome-remote-interface": "^0.25.5",
+    "ip": "^1.1.5",
     "koa": "^2.4.1",
     "koa-body": "^2.5.0",
     "koa-router": "^7.3.0"

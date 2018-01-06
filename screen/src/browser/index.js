@@ -7,6 +7,14 @@ const CYCLE_TIME_SECONDS = 20;
 let TAB_CYCLE = false;
 let currentTabIndex = 0;
 
+const getCycleState = () => {
+  return {
+    timeSeconds: CYCLE_TIME_SECONDS, 
+    currentTab: currentTabIndex, 
+    enabled: TAB_CYCLE
+  }
+}; 
+
 const getURLs = () => loadedURLs;
 
 const setURLs = (urls) => {
@@ -77,7 +85,7 @@ const loadTabs = (urls) => {
 
 const launchChrome = () => {
   chromeInstance = launch({
-    chromeFlags: ['--kiosk']
+    chromeFlags: ['--kiosk', '--no-default-browser-check']
   }).then(chrome => {
     chromeInstance = chrome;
     setURLs(loadedURLs)
@@ -85,4 +93,4 @@ const launchChrome = () => {
   });
 };
 
-export default { setURLs, getURLs, startCycle, stopCycle };
+export default { setURLs, getURLs, startCycle, stopCycle, getCycleState };
