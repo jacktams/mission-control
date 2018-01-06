@@ -85,7 +85,7 @@ const loadTabs = (urls) => {
 
 const launchChrome = () => {
   chromeInstance = launch({
-    chromeFlags: ['--kiosk', '--no-default-browser-check']
+    chromeFlags: ['--kiosk', '--no-default-browser-check', '--no-sandbox']
   }).then(chrome => {
     chromeInstance = chrome;
     setURLs(loadedURLs)
