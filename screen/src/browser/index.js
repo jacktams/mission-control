@@ -5,6 +5,7 @@ let loadedURLs = [];
 let chromeInstance = undefined;
 const CYCLE_TIME_SECONDS = 20;
 let TAB_CYCLE = false;
+let KIOSK = true;
 let currentTabIndex = 0;
 
 const getCycleState = () => {
@@ -83,9 +84,17 @@ const loadTabs = (urls) => {
   return Promise.all(urlLoad);
 };
 
+const setKiosk = (kiosk_flag) => {
+  KIOSK = kiosk_flag;
+};
+
 const launchChrome = () => {
+  const chromeFlags = ['--no-default-browser-check', '--no-sandbox'];
+  if ( KIOSK ) {
+    chromeFlags.push('--kiosk');   
+  }
   chromeInstance = launch({
-    chromeFlags: ['--kiosk', '--no-default-browser-check', '--no-sandbox']
+    chromeFlags
   }).then(chrome => {
     chromeInstance = chrome;
     setURLs(loadedURLs)
@@ -93,4 +102,4 @@ const launchChrome = () => {
   });
 };
 
-export default { setURLs, getURLs, startCycle, stopCycle, getCycleState };
+export default { setURLs, getURLs, startCycle, stopCycle, getCycleState, setKiosk };
