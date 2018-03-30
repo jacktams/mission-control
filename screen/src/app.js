@@ -46,7 +46,11 @@ router.get("/screen/cycle/off", () => {
 });
 
 router.get("/screen/debug", (ctx, next) => {
-  ctx.body = pug.render('dist/src/views/debug.pug', {ip: ip.address(), hostname: os.hostname()});
+  ctx.body = pug.render('dist/src/views/debug.pug', {
+    ip: ip.address(), 
+    hostname: os.hostname(),
+    ...browser.getCycleState()
+  });
   return next;
 });
 
