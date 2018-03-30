@@ -17,11 +17,20 @@ Accepts `application/json` containing the URL's to load, this replaces any exist
 ```
 
 ### GET /screen/cycle/on
+Enables tab cycling.
 
 ### GET /screen/cycle/off
+Disables tab cycling.
 
 ### GET /screen/debug
+Returns current config, can be requested with `application/json` for JSON version otherwise html served.
+
+### GET /screen/identify
+Triggers an overlay on the currently load page displaying IP/Hostname information for 10secs.
 
 ### POST /screen/controller/register
+TBD
 
 ### POST /screen/controller/deregister
+TBD
+

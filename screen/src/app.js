@@ -62,11 +62,19 @@ router.get("/screen/identify", (ctx, next) => {
 });
 
 router.get("/screen/debug", (ctx, next) => {
-  ctx.body = pug.render('dist/src/views/debug.pug', {
-    ip: ip.address(), 
-    hostname: os.hostname(),
-    ...browser.getCycleState()
-  });
+  if( ctx.request.accepts('application/json') && !ctx.request.accepts('text/html') ){
+    ctx.body = {
+      ip: ip.address(), 
+      hostname: os.hostname(),
+      ...browser.getCycleState()
+    }
+  } else {
+    ctx.body = pug.render('dist/src/views/debug.pug', {
+      ip: ip.address(), 
+      hostname: os.hostname(),
+      ...browser.getCycleState()
+    });
+  }
   return next;
 });
 
