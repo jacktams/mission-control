@@ -88,6 +88,24 @@ const setKiosk = (kiosk_flag) => {
   KIOSK = kiosk_flag;
 };
 
+const runScript = async (expression) => {
+  const { port } = chromeInstance;
+  const protocol = await ChromeRemote({
+    port
+  });
+  
+  const {
+    Runtime
+  } = protocol;
+  
+  await Runtime.enable();
+
+  await Runtime.evaluate({
+    expression
+  });
+
+};
+
 const launchChrome = () => {
   const chromeFlags = ['--no-default-browser-check', '--no-sandbox'];
   if ( KIOSK ) {
@@ -102,4 +120,4 @@ const launchChrome = () => {
   });
 };
 
-export default { setURLs, getURLs, startCycle, stopCycle, getCycleState, setKiosk };
+export default { setURLs, getURLs, startCycle, stopCycle, getCycleState, setKiosk, runScript };

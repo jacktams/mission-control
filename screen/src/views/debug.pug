@@ -5,9 +5,16 @@ html(lang="en")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
     title Mission Control Screen
+    style(type='text/css')
+      include css/reset.css
+      include css/style.css
   body
-    h1 Mission Control: Screen
-    h2 Connection Details
-    h2 IP Address: #{ip}
-    h2 Hostname: #{hostname}
-    h2 Cycle: #{enabled} | #{timeSeconds}s
+    .mc-overlay
+      .mc-container
+        .mc-text
+          p.info Welcome to Mission Control!
+          p.hostname !{hostname}
+          p.ip !{ip}
+          p.info Cycling Enabled: !{enabled}
+          p.info Cycle Time: !{timeSeconds}s
+      

@@ -8,7 +8,7 @@ import browser from './browser';
 
 const app = new Koa();
 const router = new Router();
-const pug = new Pug({
+const pug = new Pug({ 
   app
 });
 
@@ -34,15 +34,31 @@ router.post("/screen/urls", koaBody(), (ctx, next) => {
 router.get("/screen/urls/reload", (ctx, next) => {
   const currentURLs = browser.getURLs();
   browser.setURLs(currentURLs);
+  ctx.body = "OK";
   return next;
 });
 
-router.get("/screen/cycle/on", () => {
+router.get("/screen/cycle/on", (ctx, next) => {
   browser.startCycle();
+  ctx.body = "OK";
+  return next;
 });
 
-router.get("/screen/cycle/off", () => {
+router.get("/screen/cycle/off", (ctx, next) => {
   browser.stopCycle();
+  ctx.body = "OK";
+  return next;
+});
+
+router.get("/screen/identify", (ctx, next) => {
+  const htmlToInject = pug.render('dist/src/views/overlay.pug', {
+    ip: ip.address(), 
+    hostname: os.hostname()
+  }).replace(/(\r\n|\n|\r)/gm,"");;
+  const scriptToRun = "document.getElementsByTagName('BODY')[0].insertAdjacentHTML('afterbegin', '"+htmlToInject+"'); setTimeout(function() { document.getElementsByClassName('mc-overlay')[0].remove(); }, 10000)";
+  browser.runScript(scriptToRun);
+  ctx.body = "OK";
+  return next;
 });
 
 router.get("/screen/debug", (ctx, next) => {
