@@ -12,16 +12,28 @@ describe 'houston', ->
   afterEach ->
     @room.destroy()
 
-  it 'responds to hello', ->
-    @room.user.say('alice', '@hubot hello').then =>
+  it 'responds to hi', ->
+    @room.user.say('alice', '@hubot houston hi').then =>
       expect(@room.messages).to.eql [
-        ['alice', '@hubot hello']
+        ['alice', '@hubot houston hi']
         ['hubot', '@alice hello!']
       ]
-
-  it 'hears orly', ->
-    @room.user.say('bob', 'just wanted to say orly').then =>
+  
+  context 'correct handles registration requests', -> 
+    beforeEach -> 
+      @room.user.say('alice', "@hubot houston register 127.0.0.1 home")
+    
+    it 'responds to register successfully', -> 
       expect(@room.messages).to.eql [
-        ['bob', 'just wanted to say orly']
-        ['hubot', 'yarly']
+        ['alice', '@hubot houston register 127.0.0.1 home'],
+        ['hubot', '@alice Registering screen with IP: 127.0.0.1 and Alias: home']
       ]
+    
+    it 'correctly updates the brain', -> 
+      expect(@room.robot.brain.get('houston.screens')).to.eql [
+        { ip: '127.0.0.1', alias: 'home' }
+      ]
+    
+    it 'correctly lists current screens', -> 
+      @room.user.say('alice', '@hubot houston list').then => 
+        console.log(@room.messages)
