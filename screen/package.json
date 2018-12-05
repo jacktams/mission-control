@@ -11,13 +11,13 @@
   "author": "Jack Tams <dev@jack.sh>",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "chrome-launcher": "^0.10.1",
-    "chrome-remote-interface": "^0.25.5",
+    "chrome-launcher": "^0.10.5",
+    "chrome-remote-interface": "^0.25.7",
     "ip": "^1.1.5",
-    "koa": "^2.4.1",
-    "koa-body": "^2.5.0",
+    "koa": "^2.6.2",
+    "koa-body": "^2.6.0",
     "koa-pug": "^3.0.0-2",
-    "koa-router": "^7.3.0",
+    "koa-router": "^7.4.0",
     "pug": "^2.0.3"
   },
   "devDependencies": {

@@ -1,20 +1,22 @@
 import {launch} from 'chrome-launcher';
 import ChromeRemote from 'chrome-remote-interface';
 
-let loadedURLs = []; 
+let loadedURLs = [];
 let chromeInstance = undefined;
 const CYCLE_TIME_SECONDS = 20;
-let TAB_CYCLE = false;
+const RELOAD_TIME_SECONDS = 86400;
+let TAB_CYCLE = true;
 let KIOSK = true;
 let currentTabIndex = 0;
 
 const getCycleState = () => {
   return {
-    timeSeconds: CYCLE_TIME_SECONDS, 
-    currentTab: currentTabIndex, 
+    timeSeconds: CYCLE_TIME_SECONDS,
+    reloadSeconds: RELOAD_TIME_SECONDS,
+    currentTab: currentTabIndex,
     enabled: TAB_CYCLE
   }
-}; 
+};
 
 const getURLs = () => loadedURLs;
 
@@ -22,7 +24,7 @@ const setURLs = (urls) => {
   loadedURLs = urls;
   if (!chromeInstance)
     launchChrome();
-  
+
   openTabs().then(openTabList => {
     loadTabs(loadedURLs).catch((error) => {
       console.error(error);
@@ -93,11 +95,11 @@ const runScript = async (expression) => {
   const protocol = await ChromeRemote({
     port
   });
-  
+
   const {
     Runtime
   } = protocol;
-  
+
   await Runtime.enable();
 
   await Runtime.evaluate({
@@ -106,10 +108,23 @@ const runScript = async (expression) => {
 
 };
 
+const scheduledReload = () => {
+  setTimeout( () => {
+    _reload();
+    scheduledReload();
+  }, RELOAD_TIME_SECONDS*1000);
+};
+
+const _reload = () => {
+  console.log("Reloading All!");
+  const currentURLs = getURLs();
+  setURLs(currentURLs);
+};
+
 const launchChrome = () => {
   const chromeFlags = ['--no-default-browser-check', '--no-sandbox'];
   if ( KIOSK ) {
-    chromeFlags.push('--kiosk');   
+    chromeFlags.push('--kiosk');
   }
   chromeInstance = launch({
     chromeFlags
@@ -118,6 +133,7 @@ const launchChrome = () => {
     setURLs(loadedURLs)
     console.log(`Chrome debugging port running on ${chrome.port}`);
   });
+  scheduledReload();
 };
 
 export default { setURLs, getURLs, startCycle, stopCycle, getCycleState, setKiosk, runScript };
