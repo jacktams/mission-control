@@ -1,0 +1,22 @@
+sudo apt-get install -y network-manager
+sudo nmcli connection modify eth0 802-1x.eap peap 802-1x.identity <IDENTITY> 802-1x.password <PASSWORD> 802-1x.phase2-auth mschapv2
+sudo apt update
+sudo apt full-upgrade -y
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+sudo apt install -y nodejs git unclutter libnss3-tools 
+cd ~; git clone https://github.com/jacktams/mission-control.git
+pushd mission-control; pushd screen; npm i; popd; popd
+mkdir -p ~/.config/lxsession/LXDE-pi
+echo "@xset s noblank
+@xset s off
+@xset -dpms
+@bash /home/pi/mission-control/runner.sh
+@unclutter -display :0 -idle 3 -root -noevents" >> ~/.config/lxsession/LXDE-pi/autostart
+echo "<PEM CERT>" > cert.pem
+
+mkdir -p $HOME/.pki/nssdb
+chmod -R 600 ./.pki
+
+certutil -A -d sql:$HOME/.pki/nssdb -n '<CERT NAME>' -i cert.pem -t TCP,TCP,TCP
+
+sudo shutdown -r -f -t 10
