@@ -28,6 +28,9 @@ Returns current config, can be requested with `application/json` for JSON versio
 ### GET /screen/identify
 Triggers an overlay on the currently load page displaying IP/Hostname information for 10secs.
 
+### GET /screen/urls/reload
+reload the urls
+
 ### POST /screen/controller/register
 TBD
 
